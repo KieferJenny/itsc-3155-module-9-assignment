@@ -4,8 +4,6 @@ from src.models.movie import Movie
 
 _movie_repo = None
 
-movie = Movie(movie_id=1, title="The Matrix", director="The Wachowskis", rating=9)
-
 def get_movie_repository():
     global _movie_repo
 
