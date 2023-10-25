@@ -6,4 +6,23 @@
 <h1 class="mb-5">All Movies</h1>
 <p class="mb-3">See our list of movie ratings below</p>
 <!-- TODO: Feature 1 -->
+<table class="table table-bordered table-striped" aria-describedby="Movie Ratings Table">
+    <thead>
+        <tr>
+            <th>Movie Name</th>
+            <th>Rating</th>
+            <th>Director</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for id, movie in movies.items() %}
+        <tr>
+            <td>{{ movie.title }}</td>
+            <td>{{ movie.rating }}</td>
+            <td>{{ movie.director }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

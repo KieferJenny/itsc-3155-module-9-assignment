@@ -7,6 +7,8 @@ app = Flask(__name__)
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
 
+# Mock Movie for testing purposes
+#movie_repository.create_movie("Test Movie", "Test Director", 10)
 
 @app.get('/')
 def index():
@@ -16,7 +18,7 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    return render_template('list_all_movies.html', list_movies_active=True, movies=movie_repository.get_all_movies())
 
 
 @app.get('/movies/new')
@@ -59,3 +61,5 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
+
+
