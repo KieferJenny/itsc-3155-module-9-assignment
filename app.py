@@ -8,7 +8,7 @@ app = Flask(__name__)
 movie_repository = get_movie_repository()
 
 # Mock Movie for testing purposes
-# movie_repository.create_movie("Test Movie", "Test Direcctor", 10)
+#movie_repository.create_movie("Test Movie", "Test Director", 10)
 
 @app.get('/')
 def index():
@@ -61,3 +61,5 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
+
+
