@@ -8,7 +8,9 @@ app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-
+def get_repository():
+    return movie_repository
+    
 # Mock Movie for testing purposes
 #movie_repository.create_movie("Test Movie", "Test Director", 10)
 

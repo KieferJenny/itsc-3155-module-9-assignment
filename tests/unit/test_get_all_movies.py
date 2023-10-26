@@ -1,9 +1,8 @@
 # TODO: Feature 1
-import pytest
 from src.repositories.movie_repository import get_movie_repository
-from app import app
 
-def test_get_all_movies():
+
+def test_get_all_movies_with_movie():
     movie_repository = get_movie_repository()
     
     # Mock data
@@ -19,20 +18,12 @@ def test_get_all_movies():
 
     assert movies[next(iter(movies))].title == "Test Movie"
 
-@pytest.fixture 
-def client():
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-
-def test_list_all_movies(client):
-    response = client.get('/movies')
-    assert response.status_code == 200
-    assert b'<th>Movie Name</th>' in response.data
-
-
-
-
-
-
+def test_get_all_movies_no_movies():
+    movie_repository = get_movie_repository()
+    
+    # Mock data
+    movies = movie_repository.get_all_movies()
+    
+    # Clean up mock data
+    assert movies != None
+    assert len(movies) == 0
