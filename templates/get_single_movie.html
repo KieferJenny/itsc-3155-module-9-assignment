@@ -1,8 +1,26 @@
 {% extends '_layout.html' %}
 
-{% block title %}Movie Rating App | Movie{% endblock %}
+{% block title %}Movie Rating App | {{ movie.title }}{% endblock %}
 
 {% block body %}
-<h1 class="mb-5"></h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="mb-4">{{ movie.title }}</h1>
+            <div class="mb-3">
+                <strong>Director:</strong> {{ movie.director }}
+            </div>
+            <div class="mb-3">
+                <strong>Rating:</strong> {{ movie.rating }}
+            </div>
+            <div class="mb-5">
+                <a href="{{ url_for('get_edit_movies_page', movie_id=movie.movie_id) }}" class="btn btn-primary">Edit Movie</a>
+                <form method="post" action="{{ url_for('delete_movie', movie_id=movie.movie_id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this movie?')">Delete Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- TODO: Feature 4 -->
 {% endblock %}
