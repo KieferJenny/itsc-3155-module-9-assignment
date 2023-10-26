@@ -35,7 +35,7 @@ def create_movie():
     title = request.form.get('title')
     director = request.form.get('director')
     rating = request.form.get('rating')
-    if not (title and director and rating and 0 < int(rating) <= 5):
+    if not (title and director and rating and rating.isnumeric() and 0 < int(rating) <= 5):
         abort(400)
     movie_repository.create_movie(title, director, rating)
     # After creating the movie in the database, we redirect to the list all movies page
