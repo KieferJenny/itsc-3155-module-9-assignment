@@ -1,4 +1,6 @@
-from flask import Flask, redirect, render_template, request
+
+from flask import Flask, redirect, render_template, request, abort
+
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -6,7 +8,10 @@ app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-movie_repository.create_movie("test", "test", 1)
+
+# Mock Movie for testing purposes
+#movie_repository.create_movie("Test Movie", "Test Director", 10)
+
 
 @app.get('/')
 def index():
@@ -16,7 +21,7 @@ def index():
 @app.get('/movies')
 def list_all_movies():
     # TODO: Feature 1
-    return render_template('list_all_movies.html', list_movies_active=True)
+    return render_template('list_all_movies.html', list_movies_active=True, movies=movie_repository.get_all_movies())
 
 
 @app.get('/movies/new')
@@ -27,6 +32,12 @@ def create_movies_form():
 @app.post('/movies')
 def create_movie():
     # TODO: Feature 2
+    title = request.form.get('title')
+    director = request.form.get('director')
+    rating = request.form.get('rating')
+    if not (title and director and rating and 0 < int(rating) <= 5):
+        abort(400)
+    movie_repository.create_movie(title, director, rating)
     # After creating the movie in the database, we redirect to the list all movies page
     return redirect('/movies')
 
@@ -68,3 +79,5 @@ def update_movie(movie_id: int):
 def delete_movie(movie_id: int):
     # TODO: Feature 6
     pass
+
+
