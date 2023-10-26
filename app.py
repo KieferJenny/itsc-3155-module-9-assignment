@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, request
 
 from src.repositories.movie_repository import get_movie_repository
 
@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # Get the movie repository singleton to use throughout the application
 movie_repository = get_movie_repository()
-
+movie_repository.create_movie("test", "test", 1)
 
 @app.get('/')
 def index():
@@ -34,7 +34,16 @@ def create_movie():
 @app.get('/movies/search')
 def search_movies():
     # TODO: Feature 3
-    return render_template('search_movies.html', search_active=True)
+    """Search for movies by their name"""
+    movie_title = request.args.get('movie_title')
+
+    movie = movie_repository.get_movie_by_title(movie_title)
+
+    if movie:
+        return render_template('search_movies.html', movie=movie)
+
+    else:
+        return render_template('search_movies.html', error_message='Movie not found')
 
 
 @app.get('/movies/<int:movie_id>')
