@@ -67,8 +67,6 @@ def get_single_movie(movie_id: int):
     else:
         return "Movie not found", 404
 
-
-
 @app.get('/movies/<int:movie_id>/edit')
 def get_edit_movies_page(movie_id: int):
     return render_template('edit_movies_form.html')
