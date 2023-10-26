@@ -1,28 +1,17 @@
-import pytest
-from flask import Flask
-from app import app
+from src.models.movie import Movie
 from src.repositories.movie_repository import get_movie_repository
 
-@pytest.fixture
-def client():
-    app.config['TESTING'] = True
-    client = app.test_client()
+def test_get_movie_by_id():
+    repo = get_movie_repository()
 
-    yield client
+    #populate repo
+    testmov1 = Movie(1, 'test title 1', 'test dir 1', 8)
+    testmov2 = Movie(2, 'test title 2', 'test dir 2', 4)
+    repo._db = {1: testmov1, 2: testmov2}
 
-
-def test_get_single_movie_exists(client):
-    movie_repository = get_movie_repository()
-    movie = movie_repository.create_movie("test title","test dir",5)
-
-    response = client.get(f'/movies/{movie.id}')
-    assert response.status_code == 200
-    assert movie.title.encode() in response.data
-    assert movie.director.encode() in response.data
-    assert str(movie.rating).encode() in response.data
-
-
-def test_get_movie_not_exist(client):
-    response = client.get('movies/900')
-    assert response.status_code == 404
-    assert "Movie not found".encode() in response.data
+    #get real movie
+    movie = repo.get_movie_by_id(1)
+    assert movie == testmov1
+    #get fake movie
+    movie = repo.get_movie_by_id(3)
+    assert movie is None
